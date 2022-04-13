@@ -175,23 +175,20 @@ class ModRecentStat:
         if xwn8 is None:
             return None
 
-        # https://modxvm.com/en/ratings/xvm-scale/colors/ june 19, 2019:
-        if xwn8 < 17:
+        # 国服盒子战斗力分档
+        if xwn8 < 600:
             return 0
 
-        if xwn8 < 34:
+        if xwn8 < 800:
             return 1
 
-        if xwn8 < 53:
+        if xwn8 < 1000:
             return 2
 
-        if xwn8 < 76:
+        if xwn8 < 1200:
             return 3
 
-        if xwn8 < 93:
-            return 4
-
-        return 5
+        return 4
 
     def _getPlayerBob2020TeamId(self, accountDBID):
         # type: (int) -> [int, None]

@@ -3,6 +3,7 @@
 
 import json
 import traceback
+import re
 
 from mod_recent_stat_constant import PLAYER_ID_NOT_KNOWN, STAT_FIELDS
 from mod_recent_stat_logging import logInfo, logError
@@ -17,10 +18,12 @@ class Kttc(StatProvider):
         # type: (str, str, int, dict) -> None
         playerData = playerIdToData[playerId]
 
-        recentStatJson = json.loads(getJsonText("https://kttc.ru/wot/%s/user/%s/get-by-battles/%s/" % (region, nickname, playerId)))
-        if recentStatJson["success"] and "1000" in recentStatJson["data"]:
-            if recentStatJson["data"]["1000"]["BT"] != 0:  # Filter not valid recent stats
-                playerData.wn8 = int(round(recentStatJson["data"]["1000"]["WN8"]))
-                playerData.xwn8 = int(round(recentStatJson["data"]["1000"]["XVM"]))
-
-                playerData.hasRecentStat = True
+        recentStatJson = getFormattedHtmlText("http://wotbox.ouj.com/wotbox/index.php?r=default/index&pn=%s" % (nickname))
+        findCE = re.search(r"<span class='num'>(\d+)</span>", recentStatJson)
+        findWR = re.search(r"win-rate='(\d+)'", recentStatJson)
+        if findCE:
+            playerData.xwn8 = int(findCE.group(1))
+        if findWR:
+            playerData.wn8 = int(findWR.group(1))
+            
+            playerData.hasRecentStat = True

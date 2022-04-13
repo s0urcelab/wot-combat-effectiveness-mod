@@ -6,17 +6,11 @@ from shutil import copyfile
 
 
 colors = {
-    "badge_10": (224,   0,   0, 255),  # "red"
-    "badge_11": (224, 160,  64, 255),  # "orange"
-    "badge_12": (224, 224,   0, 255),  # "yellow"
-    "badge_13": (  0, 224,   0, 255),  # "green"
-    "badge_14": (  0, 160, 224, 255),  # "cyan"
-    "badge_15": (160,   0, 160, 255),  # "violet"
-
-    "badge_20": (204,  51, 153, 255),  # "pink"
-    "badge_21": (  0, 224,   0, 255),  # "green"
-    "badge_22": (224, 224,   0, 255),  # "yellow"
-    "badge_23": (  0, 160, 224, 255),  # "cyan"
+    "badge_10": (241, 0, 0, 255),  # "red"
+    "badge_11": (0, 193, 0, 255),  # "green"
+    "badge_12": (102, 170, 255, 255),  # "blue"
+    "badge_13": (204, 68, 255, 255),  # "purple"
+    "badge_14": (255, 215, 0, 255),  # "golden"
 }
 
 SRC_XML = "src/gui/flash/atlases/battleAtlas.xml"

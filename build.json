@@ -1,7 +1,7 @@
 {
-  "packageName": "io.github.servb.recent_stat",
+  "packageName": "s0urce.duowan.box.combat.eff",
   "modVersion": 0,
-  "wotVersion": "1.11.0.0",
+  "wotVersion": "1.16.1.0",
   "buildRoot": "./build/",
   "sourcesRoot": "./src/",
   "filesToCompile":
