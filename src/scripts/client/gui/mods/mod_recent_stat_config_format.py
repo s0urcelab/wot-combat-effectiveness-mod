@@ -14,7 +14,7 @@ class ConfigFormat(Config):
         "../mods/configs/io.github.servb.recent_stat/config_format.json",
     )
 
-    _defaultPlayerName = "{xwn8} {wn8} "
+    _defaultPlayerName = "{xwn8} {wn8}% "
     _defaultNoInfo = "--"
 
     def __init__(self, configPaths=_defaultConfigPaths):
