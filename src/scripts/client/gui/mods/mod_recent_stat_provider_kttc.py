@@ -4,6 +4,11 @@
 import json
 import traceback
 import re
+import sys
+if "urllib.request" in sys.modules:
+    from urllib.request import quote
+else:
+    from urllib2 import quote
 
 from mod_recent_stat_constant import PLAYER_ID_NOT_KNOWN, STAT_FIELDS
 from mod_recent_stat_logging import logInfo, logError
@@ -18,7 +23,10 @@ class Kttc(StatProvider):
         # type: (str, str, int, dict) -> None
         playerData = playerIdToData[playerId]
 
-        recentStatJson = getFormattedHtmlText("http://wotbox.ouj.com/wotbox/index.php?r=default/index&pn=%s" % (nickname))
+        qname = quote(nickname)
+        full_url = "http://wotbox.ouj.com/wotbox/index.php?r=default/index&pn={}".format(qname)
+        # logInfo(full_url)
+        recentStatJson = getFormattedHtmlText(full_url)
         findCE = re.search(r"<span class='num'>(\d+)</span>", recentStatJson)
         findWR = re.search(r"win-rate='(\d+)'", recentStatJson)
         if findCE:

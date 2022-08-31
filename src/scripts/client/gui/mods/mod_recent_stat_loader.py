@@ -31,7 +31,7 @@ class ModRecentStat:
         self._wgStats = WgStats(self._configMain, self._configWgId)
 
         self._welcomeMessage = self._loadWelcomeMessage()
-        self._infoMessage = self._loadInfoMessage()
+        # self._infoMessage = self._loadInfoMessage()
 
         self._isAnonymousHost = False
 
@@ -48,10 +48,9 @@ class ModRecentStat:
     @staticmethod
     def _loadWelcomeMessage():
         # type: () -> str
-        defaultMessage = "The Recent Stat of You<br>" + \
-                         "Info: <a href='event:https://github.com/SerVB/TheRecentStatOfYou'>https://github.com/SerVB/TheRecentStatOfYou</a><br>" + \
-                         "Donate: <a href='event:https://github.com/SerVB/donate'>https://github.com/SerVB/donate</a>"
-
+        defaultMessage = "盒子战斗力纯净版<br>" + \
+                        "插件版本: 1.18-0<br>" + \
+                        "官网: <a href='event:https://wot.src.moe/box-ce-mod'>https://wot.src.moe/box-ce-mod</a><br>"
         return defaultMessage
 
     def _loadInfoMessage(self):
