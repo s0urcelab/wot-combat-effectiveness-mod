@@ -49,7 +49,7 @@ class ModRecentStat:
     def _loadWelcomeMessage():
         # type: () -> str
         defaultMessage = "盒子战斗力纯净版<br>" + \
-                        "插件版本: 1.18-0<br>" + \
+                        "插件版本: 1.22-0<br>" + \
                         "官网: <a href='event:https://wot.src.moe/box-ce-mod'>https://wot.src.moe/box-ce-mod</a><br>"
         return defaultMessage
 

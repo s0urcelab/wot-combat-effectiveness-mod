@@ -9,7 +9,7 @@ try:
 
     from gui.Scaleform.daapi.view.battle.shared.stats_exchange.vehicle import VehicleInfoComponent
     from gui.battle_control.arena_info.arena_dp import ArenaDataProvider
-    from gui.battle_control.arena_info.player_format import PlayerFullNameFormatter, _PlayerFormatResult
+    from gui.battle_control.arena_info.player_format import PlayerFullNameFormatter, PlayerFormatResult
     from gui.SystemMessages import SM_TYPE, pushMessage
     from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
     from notification.settings import NOTIFICATION_TYPE
@@ -47,7 +47,7 @@ try:
         except BaseException:
             logError("Error in formatNew", traceback.format_exc())
 
-        return _PlayerFormatResult(result.playerFullName, newPlayerName, newPlayerFakeName, result.clanAbbrev,
+        return PlayerFormatResult(result.playerFullName, newPlayerName, newPlayerFakeName, result.clanAbbrev,
                                    result.regionCode, result.vehicleName)
 
 
