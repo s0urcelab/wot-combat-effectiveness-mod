@@ -27,14 +27,14 @@ class WgStats:
 
     def loadWn8Expected(self):
         # type: () -> None
-        wn8ExpectedUrl = "https://static.modxvm.com/wn8-data-exp/json/wn8exp.json"
-        wn8ExpectedData = json.loads(getJsonText(wn8ExpectedUrl))["data"]
+        # wn8ExpectedUrl = "https://static.modxvm.com/wn8-data-exp/json/wn8exp.json"
+        # wn8ExpectedData = json.loads(getJsonText(wn8ExpectedUrl))["data"]
         self._wn8Expected = dict()
 
-        for item in wn8ExpectedData:
-            idNum = item["IDNum"]
-            self._wn8Expected[idNum] = item
-            self._wn8Expected[idNum].pop("IDNum")
+        # for item in wn8ExpectedData:
+        #     idNum = item["IDNum"]
+        #     self._wn8Expected[idNum] = item
+        #     self._wn8Expected[idNum].pop("IDNum")
 
     def loadPlayerDataByVehicleList(self, vehicles, playerIdToData):
         # type: (dict, dict) -> None
@@ -55,55 +55,55 @@ class WgStats:
         if len(idsToBeLoaded) == 0:  # All IDs can be already loaded or vehicle list can be empty
             return
 
-        joinedIds = ",".join(map(str, idsToBeLoaded))
+        # joinedIds = ",".join(map(str, idsToBeLoaded))
 
-        accountsInfoUrl = self._ACCOUNT_INFO_URL \
-            .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
+        # accountsInfoUrl = self._ACCOUNT_INFO_URL \
+        #     .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
 
-        accountsTanksUrl = self._ACCOUNT_TANK_URL \
-            .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
+        # accountsTanksUrl = self._ACCOUNT_TANK_URL \
+        #     .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
 
-        accountsAchievementsUrl = self._ACCOUNT_ACHIEVEMENTS_URL \
-            .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
+        # accountsAchievementsUrl = self._ACCOUNT_ACHIEVEMENTS_URL \
+        #     .format(region=self._configMain.region, appId=self._configWgId.wgId, joinedIds=joinedIds)
 
-        try:
-            accountsInfo = json.loads(getJsonText(accountsInfoUrl, self._configMain.timeout)).get("data", None)
-            accountsTanks = json.loads(getJsonText(accountsTanksUrl, self._configMain.timeout)).get("data", None)
-            accountsAchievements = json.loads(getJsonText(accountsAchievementsUrl, self._configMain.timeout)).get("data", None)
-        except BaseException:
-            logError("Error loading statistics...", traceback.format_exc())
-        else:
-            for playerId in idsToBeLoaded:
-                strPlayerId = str(playerId)
-                try:
-                    if accountsInfo[strPlayerId]["statistics"]["all"]["battles"] != 0:
-                        currentAccountInfo = accountsInfo[strPlayerId]
-                        battles = currentAccountInfo["statistics"]["all"]["battles"]
+        # try:
+        #     accountsInfo = json.loads(getJsonText(accountsInfoUrl, self._configMain.timeout)).get("data", None)
+        #     accountsTanks = json.loads(getJsonText(accountsTanksUrl, self._configMain.timeout)).get("data", None)
+        #     accountsAchievements = json.loads(getJsonText(accountsAchievementsUrl, self._configMain.timeout)).get("data", None)
+        # except BaseException:
+        #     logError("Error loading statistics...", traceback.format_exc())
+        # else:
+        #     for playerId in idsToBeLoaded:
+        #         strPlayerId = str(playerId)
+        #         try:
+        #             if accountsInfo[strPlayerId]["statistics"]["all"]["battles"] != 0:
+        #                 currentAccountInfo = accountsInfo[strPlayerId]
+        #                 battles = currentAccountInfo["statistics"]["all"]["battles"]
 
-                        playerData = playerIdToData[playerId]
-                        playerData.battles = battles
-                        playerData.kb = formatBattlesToKiloBattles(battles)
-                        playerData.wn8 = None
-                        playerData.xwn8 = None
+        #                 playerData = playerIdToData[playerId]
+        #                 playerData.battles = battles
+        #                 playerData.kb = formatBattlesToKiloBattles(battles)
+        #                 playerData.wn8 = None
+        #                 playerData.xwn8 = None
 
-                        if strPlayerId in accountsAchievements:
-                            playerData.achievements = accountsAchievements[strPlayerId]["achievements"]
+        #                 if strPlayerId in accountsAchievements:
+        #                     playerData.achievements = accountsAchievements[strPlayerId]["achievements"]
 
-                        if strPlayerId in accountsTanks and battles != 0:
-                            floatBattles = float(battles)
+        #                 if strPlayerId in accountsTanks and battles != 0:
+        #                     floatBattles = float(battles)
 
-                            winrate = currentAccountInfo["statistics"]["all"]["wins"] * 100.0 / floatBattles
-                            avgDmg = currentAccountInfo["statistics"]["all"]["damage_dealt"] / floatBattles
-                            avgFrags = currentAccountInfo["statistics"]["all"]["frags"] / floatBattles
-                            avgSpot = currentAccountInfo["statistics"]["all"]["spotted"] / floatBattles
-                            avgDef = currentAccountInfo["statistics"]["all"]["dropped_capture_points"] / floatBattles
+        #                     winrate = currentAccountInfo["statistics"]["all"]["wins"] * 100.0 / floatBattles
+        #                     avgDmg = currentAccountInfo["statistics"]["all"]["damage_dealt"] / floatBattles
+        #                     avgFrags = currentAccountInfo["statistics"]["all"]["frags"] / floatBattles
+        #                     avgSpot = currentAccountInfo["statistics"]["all"]["spotted"] / floatBattles
+        #                     avgDef = currentAccountInfo["statistics"]["all"]["dropped_capture_points"] / floatBattles
 
-                            wn8 = self.getWN8(winrate, avgDmg, avgFrags, avgSpot, avgDef, accountsTanks[strPlayerId], self._wn8Expected)
+        #                     wn8 = self.getWN8(winrate, avgDmg, avgFrags, avgSpot, avgDef, accountsTanks[strPlayerId], self._wn8Expected)
 
-                            playerData.wn8 = wn8
-                            playerData.xwn8 = getXWN8(wn8)
-                except BaseException:
-                    logError("Error calculating stats for PlayerID %s..." % playerId, traceback.format_exc())
+        #                     playerData.wn8 = wn8
+        #                     playerData.xwn8 = getXWN8(wn8)
+        #         except BaseException:
+        #             logError("Error calculating stats for PlayerID %s..." % playerId, traceback.format_exc())
 
     @staticmethod
     def getWN8(winrate, avgDmg, avgFrags, avgSpot, avgDef, accountTanks, wn8Expected):
